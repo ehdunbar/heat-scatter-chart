@@ -16,6 +16,7 @@ export default class HeatMap extends React.Component {
         marginTop: 40,
         marginBottom: 90,
         marginLeft: 60,
+        marginRight: 30,
         plotBorderWidth: 0,
         borderColor: 'transparent'
       },
@@ -45,22 +46,24 @@ export default class HeatMap extends React.Component {
       },
       colorAxis: {
         min: 0,
-        minColor: '#FFFFFF',
-        maxColor: Highcharts.getOptions().colors[0]
+        max: 100,
+        stops: [
+          [0, '#ff9ca2'],
+          [0.5, '#fffc9c'],
+          [0.9, '#b0ff9c']
+        ]
       },
       legend: {
+        title: {
+          text: 'Historical Win Rates'
+        },
         align: 'right',
-        layout: 'vertical',
-        margin: 0,
+        layout: 'horizontal',
+        floating: true,
+        borderWidth: 1,
+        backgroundColor: 'white',
         verticalAlign: 'top',
-        y: 25,
-        symbolHeight: 280
-      },
-      tooltip: {
-        formatter: function () {
-          return '<b>' + this.series.xAxis.categories[this.point.x] + '</b> sold <br><b>' +
-            this.point.value + '</b> items on <br><b>' + this.series.yAxis.categories[this.point.y] + '</b>';
-        }
+        y: 25
       },
       series: [],
       credits: {
@@ -92,11 +95,11 @@ export default class HeatMap extends React.Component {
       data: [...formatedData],
       dataLabels: {
         enabled: true,
-        color: '#000000'
+        color: '#000000',
       }
     })
 
-    console.log("HeatMap");
+    options.chart.height = document.documentElement.clientHeight - 50;
 
     return (
       <Container style={{position: 'absolute', width: '100%'}}>

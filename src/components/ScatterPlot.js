@@ -29,7 +29,10 @@ export default class Scatter extends React.Component {
         minorGridLineWidth: 0,
         lineColor: 'transparent',
         minorTickLength: 0,
-        tickLength: 0
+        tickLength: 0,
+        min: 0,
+        startOnTick: false,
+        endOnTick:false
       },
       yAxis: {
         title: {
@@ -109,8 +112,8 @@ export default class Scatter extends React.Component {
     options.series.push({
       name: "Opportunities",
       marker: {
-        fillColor: "rgb(48,219,224,0.3)",
-        lineColor: "#30dbe0",
+        fillColor: "#4fadf0",
+        lineColor: "#3097e0",
         lineWidth: 2
       },
       data: [...formatedData]
@@ -121,7 +124,7 @@ export default class Scatter extends React.Component {
     console.log("ScatterPlot")
 
     return (
-      <Container>
+      <Container style={{position: 'absolute', width: '100%', height: '100%'}}>
         <HighchartsReact
           highcharts={Highcharts}
           options={options}

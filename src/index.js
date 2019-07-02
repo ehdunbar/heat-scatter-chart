@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import HeatMap from './components/HeatMap';
 import HeatScatter from './components/HeatScatter';
 
 looker.plugins.visualizations.add({
@@ -47,8 +46,6 @@ looker.plugins.visualizations.add({
       return;
     }
 
-    // console.log(data);
-
     this.heatMap = ReactDOM.render(
       <HeatScatter
         key="heat_scatter"
@@ -56,6 +53,7 @@ looker.plugins.visualizations.add({
         data={data}
         done={done}
         queryResponse={queryResponse}
+        style={{display: 'grid'}}
       />,
       this._textElement
     );
