@@ -12,75 +12,65 @@ export default class Scatter extends React.Component {
 
     // Highchart Options
     this.options = {
-        chart: {
-            type: 'scatter',
-            zoomType: 'xy'
-        },
+      chart: {
+        type: 'scatter',
+        zoomType: 'xy',
+        backgroundColor: 'transparent',
+        marginRight: 90
+      },
+      title: {
+        text: 'Heat-Scatter Plot'
+      },
+      xAxis: {
         title: {
-            text: 'Scatter Plot'
+          text: 'X Axis Name'
         },
-        xAxis: {
-            type: 'datetime',
-            title: {
+        lineWidth: 0,
+        minorGridLineWidth: 0,
+        lineColor: 'transparent',
+        minorTickLength: 0,
+        tickLength: 0
+      },
+      yAxis: {
+        title: {
+          text: 'Y Axis Name'
+        },
+        lineWidth: 0,
+        minorGridLineWidth: 0,
+        lineColor: 'transparent',
+        minorTickLength: 0,
+        tickLength: 0,
+        gridLineColor: 'transparent'
+      },
+      plotOptions: {
+        scatter: {
+          marker: {
+            radius: 5,
+            states: {
+              hover: {
                 enabled: true,
-                text: 'X Axis Name'
+                lineColor: 'rgb(100,100,100)'
+              }
             },
-            startOnTick: true,
-            endOnTick: true,
-            showLastLabel: true,
-            tickInterval: (24 * 3600 * 1000),
-            labels: {
-              formatter: function() {
-                return Highcharts.dateFormat('%d-%b-%Y', (this.value));
+            symbol: "circle"
+          },
+          states: {
+            hover: {
+              marker: {
+                enabled: false
               }
             }
-        },
-        yAxis: {
-            title: {
-                text: 'Y Axis Name'
-            }
-        },
-        legend: {
-            title: {text: 'Probability'},
-            layout: 'vertical',
-            align: 'left',
-            verticalAlign: 'top',
-            x: 100,
-            y: 70,
-            floating: true,
-            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
-            borderWidth: 1
-        },
-        plotOptions: {
-            scatter: {
-                marker: {
-                    radius: 5,
-                    states: {
-                        hover: {
-                            enabled: true,
-                            lineColor: 'rgb(100,100,100)'
-                        }
-                    },
-                    symbol: "circle"
-                },
-                states: {
-                    hover: {
-                        marker: {
-                            enabled: false
-                        }
-                    }
-                },
-                // TODO: make tooltip input dynamic
-                tooltip: {
-                  headerFormat:'<b>{point.point.name}</b><br>',
-                  pointFormat: 'Close Date: <b>{point.formatted_x}</b><br/>Days Open: <b>{point.y}</b><br/>Opportunity Amount: <b>${point.amount}</b><br/>'
-                }
-            }
-        },
-        series: [],
-        credits: {
-            enabled: false
+          },
+          tooltip: {
+            headerFormat:'<b>{point.point.name}</b><br>',
+            pointFormat: 'Days Open: <b>{point.x}</b><br/>Opportunity Amount: <b>${point.formatedAmount}</b><br/>Probability: <b>{point.probability}%</b>'
+          }
         }
+      },
+      series: [],
+      credits: {
+        enabled: false
+      }
     }
   }
 
@@ -95,27 +85,21 @@ export default class Scatter extends React.Component {
 
     const formatedData = dataArray.map(row => {
 
-      var dateAsArray = row[columnNameArray[0].name].value.split("-")
-      var year = parseInt(dateAsArray[0])
-      var month = parseInt(dateAsArray[1]) - 1
-      var day = parseInt(dateAsArray[2])
-
-      const x = (Date.UTC(year, month, day));
-      const formatedX = dateAsArray.join("-");
+      const x = row[columnNameArray[0].name].value;
       const y = row[columnNameArray[1].name].value;
       const name = row[columnNameArray[2].name].value;
-      const probability = row[columnNameArray[3].name].value;
-      const amount = row[columnNameArray[4].name].value || 0;
-      const marker = row[columnNameArray[4].name].value * (1/10000)
+      const probability = row[columnNameArray[5].name].value;
+
+      const amount = row[columnNameArray[1].name].value || 0;
+      const formatedAmount = amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
       return {
         x: x,
-        formated_x: formatedX,
         y: y,
         name: name,
         probability: probability,
         amount: amount,
-        marker: { marker}
+        formatedAmount: formatedAmount
       };
     });
 
@@ -123,7 +107,7 @@ export default class Scatter extends React.Component {
     options.series = [];
 
     options.series.push({
-      name: "<100",
+      name: "Opportunities",
       marker: {
         fillColor: "rgb(48,219,224,0.3)",
         lineColor: "#30dbe0",

@@ -16,7 +16,7 @@ looker.plugins.visualizations.add({
   create: function(element, config) {
     element.innerHTML = `
       <style>
-        .heat-map {
+        .heat-scatter {
           width: 100%;
           height: 100%;
         }
@@ -26,7 +26,7 @@ looker.plugins.visualizations.add({
     `;
 
     var container = element.appendChild(document.createElement("div"));
-    container.className = "heat-map";
+    container.className = "heat-scatter";
 
     this._textElement = container.appendChild(document.createElement("div"));
 
@@ -51,7 +51,7 @@ looker.plugins.visualizations.add({
 
     this.heatMap = ReactDOM.render(
       <HeatScatter
-        key="heat_map"
+        key="heat_scatter"
         config={config}
         data={data}
         done={done}

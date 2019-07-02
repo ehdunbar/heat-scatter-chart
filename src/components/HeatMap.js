@@ -14,26 +14,34 @@ export default class HeatMap extends React.Component {
       chart: {
         type: 'heatmap',
         marginTop: 40,
-        marginBottom: 80,
-        plotBorderWidth: 1
+        marginBottom: 90,
+        marginLeft: 60,
+        plotBorderWidth: 0,
+        borderColor: 'transparent'
       },
-      title: {
-        text: "Heat Map"
-      },
+      postition: 'absolute',
+      title: undefined,
       xAxis: {
-        // TODO: Might want to just remove the categories
-        categories: ['X Axis Categories'],
-        title: {
-          enabled: true,
-          text: 'X Axis Name'
-        }
+        lineWidth: 0,
+        minorGridLineWidth: 0,
+        lineColor: 'transparent',
+        labels: {
+          enabled: false
+        },
+        minorTickLength: 0,
+        tickLength: 0
       },
       yAxis: {
-        categories: ['Y Axis Categories'],
-        title: {
-          enabled: true,
-          text: 'Y Axis Name'
-        }
+        lineWidth: 0,
+        minorGridLineWidth: 0,
+        lineColor: 'transparent',
+        labels: {
+          enabled: false
+        },
+        title: undefined,
+        minorTickLength: 0,
+        tickLength: 0,
+        gridLineColor: 'transparent'
       },
       colorAxis: {
         min: 0,
@@ -48,30 +56,29 @@ export default class HeatMap extends React.Component {
         y: 25,
         symbolHeight: 280
       },
-      // TODO: Might need to change the formatter pulling out undefined instead of expected values
       tooltip: {
         formatter: function () {
           return '<b>' + this.series.xAxis.categories[this.point.x] + '</b> sold <br><b>' +
             this.point.value + '</b> items on <br><b>' + this.series.yAxis.categories[this.point.y] + '</b>';
         }
       },
-      series: []
+      series: [],
+      credits: {
+        enabled: false
+      }
     }
   }
 
   render() {
 
-    this.options.xAxis.title.text = this.props.queryResponse.fields.dimensions[0].label;
-    this.options.yAxis.title.text = this.props.queryResponse.fields.dimensions[1].label;
-
     const columnNameArray = this.props.queryResponse.fields.dimensions;
     var dataArray = this.props.data;
 
     const formatedData = dataArray.map(row => {
-      const x = row[columnNameArray[0].name].value;
-      const y = row[columnNameArray[1].name].value;
+      const x = row[columnNameArray[3].name].value;
+      const y = row[columnNameArray[4].name].value;
 
-      const amount = row[columnNameArray[2].name].value || 0;
+      const amount = row[columnNameArray[5].name].value || 0;
 
       return [x, y, amount];
     });
@@ -92,7 +99,7 @@ export default class HeatMap extends React.Component {
     console.log("HeatMap");
 
     return (
-      <Container>
+      <Container style={{position: 'absolute', width: '100%'}}>
         <HighchartsReact
           highcharts={Highcharts}
           options={options}

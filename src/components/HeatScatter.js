@@ -9,6 +9,14 @@ export default class HeatScatter extends React.Component {
 
     const Container = styled.div``;
 
+    const heatStyle = {
+      position: 'absolute'
+    };
+
+    const scatterStyle = {
+      position: 'absolute'
+    };
+
     return (
       <Container>
         <HeatMap
@@ -17,14 +25,16 @@ export default class HeatScatter extends React.Component {
           data={this.props.data}
           done={this.props.done}
           queryResponse={this.props.queryResponse}
+          style={heatStyle}
         />
-        {/* <ScatterPlot
+        <ScatterPlot
           key="scatter_plot"
           config={this.props.config}
           data={this.props.data}
           done={this.props.done}
           queryResponse={this.props.queryResponse}
-        /> */}
+          style={scatterStyle}
+        />
       </Container>
     )
   }
