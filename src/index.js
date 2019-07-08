@@ -48,12 +48,11 @@ looker.plugins.visualizations.add({
 
     this.heatMap = ReactDOM.render(
       <HeatScatter
-        key="heat_scatter"
+        key="combined"
         config={config}
         data={data}
         done={done}
         queryResponse={queryResponse}
-        style={{display: 'grid'}}
       />,
       this._textElement
     );
