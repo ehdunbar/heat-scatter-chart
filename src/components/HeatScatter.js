@@ -7,10 +7,7 @@ import ScatterPlot from './ScatterPlot';
 export default class HeatScatter extends React.Component {
   render() {
 
-    const Container = styled.div`
-
-
-    `;
+    const Container = styled.div``;
 
     return (
       <Container>

@@ -55,7 +55,7 @@ export default class HeatMap extends React.Component {
       },
       legend: {
         title: {
-          text: 'Historical Win Rates'
+          text: 'Historical Win Rates in %'
         },
         align: 'right',
         layout: 'horizontal',
@@ -95,9 +95,11 @@ export default class HeatMap extends React.Component {
       data: [...formatedData],
       dataLabels: {
         enabled: true,
-        color: '#000000',
+        color: '#000000'
       }
     })
+
+    console.log(options.series)
 
     options.chart.height = document.documentElement.clientHeight - 50;
 
